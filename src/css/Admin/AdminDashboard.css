@@ -1,0 +1,102 @@
+.admin-dashboard {
+    min-height: 100vh;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #003c71 0%, #005691 100%);
+  }
+  
+  .welcome-title {
+    color: white !important;
+    text-align: center;
+    font-weight: 600 !important;
+    margin-bottom: 1rem !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dashboard-subtitle {
+    color: #e0e0e0 !important;
+    text-align: center;
+    margin-bottom: 3rem !important;
+  }
+  
+  .dashboard-options {
+    margin-top: 2rem;
+  }
+  
+  .dashboard-option {
+    padding: 2.5rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    background-color: white;
+  }
+  
+  .dashboard-icon {
+    font-size: 4rem !important;
+    color: #003c71;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 60, 113, 0.15);
+  }
+  
+  .dashboard-option h4 {
+    color: #003c71;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .dashboard-option p {
+    color: #666;
+    font-size: 1.1rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 960px) {
+    .admin-dashboard {
+      padding: 2rem 1rem;
+    }
+  
+    .welcome-title {
+      font-size: 2rem !important;
+    }
+  
+    .dashboard-subtitle {
+      font-size: 1.2rem !important;
+    }
+  
+    .dashboard-option {
+      padding: 2rem 1.5rem;
+    }
+  
+    .dashboard-icon {
+      font-size: 3rem !important;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .welcome-title {
+      font-size: 1.8rem !important;
+    }
+  
+    .dashboard-subtitle {
+      font-size: 1.1rem !important;
+    }
+  
+    .dashboard-option h4 {
+      font-size: 1.5rem;
+    }
+  }

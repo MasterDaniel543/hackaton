@@ -1,0 +1,170 @@
+.admin-container {
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #003c71 0%, #005691 100%);
+  }
+  
+  .back-button {
+    background-color: white !important;
+    color: #003c71 !important;
+    font-weight: 600 !important;
+    padding: 0.8rem 1.5rem !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .back-button:hover {
+    background-color: #f5f5f5 !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .paper-style {
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+  
+  .text-field {
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+  
+  .form-section-title {
+    color: #003c71 !important;
+    margin: 2rem 0 1.5rem !important;
+    font-weight: 600 !important;
+  }
+  
+  .button-primary {
+    background-color: #003c71 !important;
+    color: white !important;
+    padding: 0.8rem !important;
+    height: 100% !important;
+    font-weight: 500 !important;
+  }
+  
+  .button-primary:hover {
+    background-color: #005691 !important;
+    box-shadow: 0 4px 12px rgba(0, 60, 113, 0.2) !important;
+  }
+  
+  .button-secondary {
+    background-color: #dc3545 !important;
+    color: white !important;
+  }
+  
+  .button-secondary:hover {
+    background-color: #c82333 !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2) !important;
+  }
+  
+  /* Estilos para la lista de camiones */
+  .MuiListItem-root {
+    background-color: white;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .MuiListItem-root:hover {
+    background-color: #f5f5f5;
+    transform: translateX(5px);
+  }
+  
+  .MuiListItemText-primary {
+    color: #003c71 !important;
+    font-weight: 500 !important;
+  }
+  
+  .MuiListItemText-secondary {
+    color: #666 !important;
+  }
+  
+  /* Estilos para los iconos de acción */
+  .icon-button {
+    margin: 0 4px !important;
+  }
+  
+  .icon-button:first-of-type {
+    color: #003c71 !important;
+  }
+  
+  .icon-button:last-of-type {
+    color: #dc3545 !important;
+  }
+  
+  .icon-button:hover {
+    background-color: rgba(0, 60, 113, 0.1) !important;
+  }
+  
+  /* Estilos para la paginación */
+  .pagination {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .MuiPagination-ul {
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .MuiPaginationItem-root {
+    color: #003c71 !important;
+  }
+  
+  .MuiPaginationItem-root.Mui-selected {
+    background-color: #003c71 !important;
+    color: white !important;
+  }
+  
+  /* Estilos para el diálogo */
+  .MuiDialog-paper {
+    border-radius: 10px !important;
+    padding: 1rem !important;
+  }
+  
+  .MuiDialogTitle-root {
+    color: #003c71 !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Estilos para el Snackbar */
+  .MuiAlert-standardSuccess {
+    background-color: #28a745 !important;
+    color: white !important;
+  }
+  
+  .MuiAlert-standardError {
+    background-color: #dc3545 !important;
+    color: white !important;
+  }
+  
+  /* Responsive */
+  @media (max-width: 960px) {
+    .admin-container {
+      padding: 1rem;
+    }
+  
+    .paper-style {
+      padding: 1.5rem;
+    }
+  
+    .form-section-title {
+      font-size: 1.2rem !important;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .MuiGrid-item {
+      padding: 8px !important;
+    }
+  
+    .button-primary,
+    .button-secondary {
+      margin-top: 1rem !important;
+    }
+  }
