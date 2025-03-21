@@ -1,0 +1,35 @@
+.admin-container {
+  padding: 20px;
+  position: relative;
+}
+
+.paper-style {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.text-field {
+  margin-bottom: 16px;
+}
+
+.button-primary {
+  background-color: #1976d2;
+  color: white;
+}
+
+.button-secondary {
+  background-color: #dc3545;
+  color: white;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
