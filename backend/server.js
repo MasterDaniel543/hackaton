@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const multer = require('multer');
+const path = require('path');
 
 
 // Importaciones de Seguridad
@@ -62,6 +64,32 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');  // Make sure this directory exists
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+  }
+});
+
 // Middleware de validación
 const validateRequest = (req, res, next) => {
   const errors = validationResult(req);
@@ -108,6 +136,8 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 .then(() => console.log('Conectado a MongoDB'))
 .catch(err => console.error('Error conectando a MongoDB:', err));
+
+app.use('/uploads', express.static('uploads'));
 
 // Rutas públicas
 app.post('/api/login', async (req, res) => {
@@ -395,6 +425,51 @@ app.get('/api/conductor/incidencias-pendientes', authenticateToken, async (req, 
   }
 });
 
+// Add this route for getting all incidencias
+app.get('/api/admin/incidencias', authenticateToken, async (req, res) => {
+  try {
+    // First verify if the user is admin
+    if (req.user.rol !== 'admin') {
+      return res.status(403).json({ error: 'Acceso no autorizado' });
+    }
+
+    const incidencias = await Incidencia.find()
+      .populate('conductorId', 'nombre email')
+      .populate('camionId', 'placa ruta')
+      .sort({ fecha: -1 });
+
+    res.json(incidencias);
+  } catch (error) {
+    console.error('Error en /api/admin/incidencias:', error);
+    res.status(500).json({ 
+      error: 'Error al obtener incidencias',
+      details: error.message 
+    });
+  }
+});
+
+// Route for updating incidencia status
+app.put('/api/admin/incidencias/:id', authenticateToken, async (req, res) => {
+  try {
+    const incidencia = await Incidencia.findByIdAndUpdate(
+      req.params.id,
+      { estado: req.body.estado },
+      { new: true }
+    )
+    .populate('conductorId', 'nombre')
+    .populate('camionId', 'placa');
+    
+    if (!incidencia) {
+      return res.status(404).json({ error: 'Incidencia no encontrada' });
+    }
+    
+    res.json(incidencia);
+  } catch (error) {
+    console.error('Error updating incidencia:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Rutas protegidas - Admin
 app.get('/api/admin/:id', authenticateToken, async (req, res) => {
   try {
@@ -451,7 +526,8 @@ app.get('/api/conductor/info', authenticateToken, async (req, res) => {
   }
 });
 
-app.post('/api/conductor/incidencias', authenticateToken, async (req, res) => {
+// Ruta para crear una nueva incidencia
+app.post('/api/conductor/incidencias', authenticateToken, upload.single('imagen'), async (req, res) => {
   try {
     const { descripcion, camionId } = req.body;
     
@@ -459,12 +535,14 @@ app.post('/api/conductor/incidencias', authenticateToken, async (req, res) => {
       descripcion,
       camionId,
       conductorId: req.user.id,
-      fecha: new Date()
+      fecha: new Date(),
+      imagen: req.file ? `/uploads/${req.file.filename}` : null
     });
 
     await nuevaIncidencia.save();
     res.status(201).json(nuevaIncidencia);
   } catch (error) {
+    console.error('Error creating incidencia:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -490,51 +568,9 @@ app.put('/api/conductor/ubicacion', authenticateToken, async (req, res) => {
   }
 });
 
-// Ruta para obtener todas las incidencias (para el admin)
-app.get('/api/admin/incidencias', authenticateToken, async (req, res) => {
-  try {
-    // First verify if the user is admin
-    if (req.user.rol !== 'admin') {
-      return res.status(403).json({ error: 'Acceso no autorizado' });
-    }
 
-    const incidencias = await Incidencia.find()
-      .populate('conductorId', 'nombre email')
-      .populate('camionId', 'placa ruta')
-      .sort({ fecha: -1 });
 
-    res.json(incidencias);
-  } catch (error) {
-    console.error('Error en /api/admin/incidencias:', error);
-    res.status(500).json({ 
-      error: 'Error al obtener incidencias',
-      details: error.message 
-    });
-  }
-});
-
-// Ruta para actualizar el estado de una incidencia
-app.put('/api/admin/incidencias/:id', authenticateToken, async (req, res) => {
-  try {
-    const incidencia = await Incidencia.findByIdAndUpdate(
-      req.params.id,
-      { estado: req.body.estado },
-      { new: true }
-    )
-    .populate('conductorId', 'nombre')
-    .populate('camionId', 'placa');
-    
-    if (!incidencia) {
-      return res.status(404).json({ error: 'Incidencia no encontrada' });
-    }
-    
-    res.json(incidencia);
-  } catch (error) {
-    console.error('Error updating incidencia:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
+// Add these routes before the error handling middleware
 // Middleware de manejo de errores
 app.use(handleError);
 
