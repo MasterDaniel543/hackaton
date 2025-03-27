@@ -8,6 +8,7 @@ import Conductor from './components/Conductor/DashboardConductor';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import GestionUsuarios from './components/Admin/GestionUsuarios';
 import GestionCamiones from './components/Admin/GestionCamiones';
+import GestionIncidencias from './components/Admin/GestionIncidencias';
 import './App.css';
 
 const ProtectedRoute = ({ children, allowedRole }) => {
@@ -54,6 +55,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRole="admin">
               <GestionCamiones />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/incidencias"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <GestionIncidencias />
             </ProtectedRoute>
           }
         />
